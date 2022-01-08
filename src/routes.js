@@ -11,6 +11,9 @@ const AddNewWorker = React.lazy(() => import('./views/worker/AddWorker'))
 const UpdateWorker = React.lazy(() => import('./views/worker/UpdateWorker'))
 const ViewWorkerProfile = React.lazy(() => import('./views/worker/ViewWorker'))
 
+const AllPendingWorkersProfile = React.lazy(() => import('./views/pendingWorker/AllPendingWorker'))
+const ViewPendingWorkerProfile = React.lazy(() => import('./views/pendingWorker/ViewPendingWorker'))
+
 const AllUser = React.lazy(() => import('./views/user/AllUser'))
 const AddNewUser = React.lazy(() => import('./views/user/AddUser'))
 const UpdateUser = React.lazy(() => import('./views/user/UpdateUser'))
@@ -120,8 +123,9 @@ const routes = [
   { path: '/users/update-user/:id',pathSimpleName:"/user/update-user" , name: 'Update User', component: UpdateUser },
   { path: '/users/view-user/:id', name: 'View User', component: ViewUser },
 
-
-
+  { path: '/pendingworkers', name: 'PendingWorker', component: AllPendingWorkersProfile, exact: true },
+  { path: '/pendingworkers/all-pending-workers', name: 'All Pending Workers', component: AllPendingWorkersProfile },
+  { path: '/pendingworkers/view-pending-worker/:id', name: 'View Pending Worker', component: ViewPendingWorkerProfile },
 ]
 
 export default routes

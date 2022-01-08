@@ -5,7 +5,7 @@ import { useParams,useHistory,Link} from 'react-router-dom';
 import './view.css';
 import { toast } from 'react-toastify';
 
-const ViewPending = () => {
+const View = () => {
     const [workerProfile,setWorkerProfile] = useState([]);
 
     const {id} = useParams();
@@ -94,12 +94,6 @@ const ViewPending = () => {
                     <br />
                     <br />
 
-                    
-                    <strong>Status:</strong>
-                    <span>{workerProfile.status}</span>
-                    <br />
-                    <br />
-
 
                                           <button className="btn btn-edit backBtn" onClick={()=>history.goBack()}>Go Back</button>
                 </div>
@@ -109,4 +103,4 @@ const ViewPending = () => {
     )
 }
 
-export default ViewPending
+export default View

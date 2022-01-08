@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { fireDb } from '../../../firebase';
-import { collection, getDocs, deleteDoc, doc,query,where } from 'firebase/firestore';
+import { collection, getDocs, deleteDoc, doc,updateDoc,query,where } from 'firebase/firestore';
 import { Link,Router } from 'react-router-dom';
 import { toast } from 'react-toastify'
-import './AllWorker.css';
+// import './AllWorker.css';
 import MaterialTable from 'material-table';
 
 
-const AllWorker = (props) => {
+const AllPendingWorker = (props) => {
     const [data, setData] = useState([]);
 
     const columns = [
@@ -20,11 +20,12 @@ const AllWorker = (props) => {
 
     //change table name
    //firebase db collections
-//    const workersCollectionRef = collection(fireDb, "WorkerProfile");
+   const workersCollectionRef = collection(fireDb, "WorkerProfile");
 
    useEffect(() => {
     const getData = async () => {
-        const q = query(collection(fireDb, "WorkerProfile"), where("status", "==", "true"));
+        // const workerData = await getDocs(workersCollectionRef);
+        const q = query(collection(fireDb, "WorkerProfile"), where("status", "==",""));
         const workerData = await getDocs(q);
         setData(workerData.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
     }
@@ -34,24 +35,35 @@ const AllWorker = (props) => {
 
 
  //delete function
- const handleDelete = async (id) => {
-    const workerDoc = doc(fireDb, "WorkerProfile", id);
-    if (window.confirm("Are you sure that you wanted to delete that contact ?")) {
-        try {
-            await deleteDoc(workerDoc);
-            toast.success("contact deleted successfully");
-        } catch (err) {
-            toast.error(err);
-        }
-    }
-}
+//  const handleDelete = async (id) => {
+//     const workerDoc = doc(fireDb, "WorkerProfile", id);
+//     if (window.confirm("Are you sure that you wanted to delete that contact ?")) {
+//         try {
+//             await deleteDoc(workerDoc);
+//             toast.success("contact deleted successfully");
+//         } catch (err) {
+//             toast.error(err);
+//         }
+//     }
+// }
 
+//approve
+const handleApprove = async (id)=>{
+const washingtonRef = doc(fireDb, "WorkerProfile", id);
+
+await updateDoc(washingtonRef, {
+  status: "true"
+});
+
+alert('worker approved');
+
+}
 
 
 
     return (
         <div>
-            <h6>All Workers</h6>
+            <h6>Pending Workers</h6>
             <MaterialTable
                 columns={columns}
                 data={data}
@@ -60,20 +72,20 @@ const AllWorker = (props) => {
                 // }}
                 actions={[
 
+                    // rowData =>({
+                    //     icon: () => <Link to={`/workers/update-worker/${rowData.id}`}><i className="fas fa-pen" style={{color:'black',fontSize:'20px'}}></i></Link>,
+                    //     tooltip:'Update',
+                    //     onClick:(rowData),
+                    // }),
+
                     rowData =>({
-                        icon: () => <Link to={`/workers/update-worker/${rowData.id}`}><i className="fas fa-pen" style={{color:'black',fontSize:'20px'}}></i></Link>,
-                        tooltip:'Update',
-                        onClick:(rowData),
+                        icon: 'check',
+                        tooltip:'Approve',
+                        onClick: () => handleApprove(rowData.id),
                     }),
 
                     rowData =>({
-                        icon: 'delete',
-                        tooltip:'Delete',
-                        onClick: () => handleDelete(rowData.id),
-                    }),
-
-                    rowData =>({
-                        icon: () => <Link to={`/workers/view-worker/${rowData.id}`}><i className="fas fa-eye" style={{color:'black',fontSize:'20px'}}></i></Link>,
+                        icon: () => <Link to={`/pendingworkers/view-pending-worker/${rowData.id}`}><i className="fas fa-eye" style={{color:'black',fontSize:'20px'}}></i></Link>,
                         tooltip:'View',
                         onClick:(rowData),
                     }),
@@ -97,11 +109,11 @@ const AllWorker = (props) => {
 
 
                 }}
-                title='Workers Profile Data'
+                title='Pending Workers Profile Data'
             />
 
         </div>
     )
 
 }
-export default AllWorker;
+export default AllPendingWorker;

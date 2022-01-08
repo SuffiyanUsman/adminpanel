@@ -62,6 +62,24 @@ const _nav = [
       },
     ],
   },
+  {
+    component: CNavGroup,
+    name: 'PendingWorkersProfile',
+    to: '/workers',
+    icon: <CIcon icon={cilPuzzle} customClassName="nav-icon" />,
+    items: [
+      {
+        component: CNavItem,
+        name: 'All Pendind Workers',
+        to: '/pendingworkers/all-pending-workers',
+      },
+      // {
+      //   component: CNavItem,
+      //   name: 'Add New Worker',
+      //   to: '/workers/add-new-worker',
+      // },
+    ],
+  },
   
 ]
 
